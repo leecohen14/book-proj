@@ -25,6 +25,7 @@ export default {
                 .then(res => {
                     if (!res) this.$emit('addBook', book)
                     else this.$emit('selected', book);
+
                 })
 
         },

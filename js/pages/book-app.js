@@ -10,7 +10,7 @@ export default {
             <h1>BOOK STORE</h1>
             <book-filter @filtered="setFilter" />    
             <book-list v-if="!selectedBook" :books="booksToShow" @selected="selectBook"/>
-            <book-details v-if="selectedBook" :book="selectedBook" />
+            <!-- <book-details v-if="selectedBook" :book="selectedBook" /> -->
         </section>
     `,
     data() {
@@ -60,8 +60,8 @@ export default {
             const booksToShow = this.books.filter((book) => {
                 return (
                     book.title.toLowerCase().includes(searchStr) &&
-                    book.listPrice.amount >= this.filterBy.fromPrice &&
-                    book.listPrice.amount < this.filterBy.toPrice
+                    book.listPrice.amount >= (this.filterBy.fromPrice || 0) &&
+                    book.listPrice.amount < (this.filterBy.toPrice || Infinity)
                 );
             });
             return booksToShow;

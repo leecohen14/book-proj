@@ -45,6 +45,7 @@ export default {
         addBook(book) {
             console.log('adding book');
             return bookService.addGoogleBook(book);
+
         }
     },
     computed: {
@@ -53,8 +54,12 @@ export default {
     mounted() {
         this.$refs.input.addEventListener('input', this.debounce(this.searchBook, 1000))
     },
-    created() {},
-    destroyed() {
+    created() {
+        //this.debounceSearch = this.debounce(this.searchBook, 1000)
+    },
+    destroyed(
+
+    ) {
 
     }
 }

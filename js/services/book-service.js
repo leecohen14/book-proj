@@ -15,7 +15,8 @@ export const bookService = {
     removeReview,
     getBooksToAdd,
     convertBooks,
-    addGoogleBook
+    addGoogleBook,
+    getNextBookId
 };
 
 function query() {
@@ -571,4 +572,12 @@ function _getRandomPrice(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
+}
+
+function getNextBookId(bookId) {
+    return query()
+        .then(books => {
+            const idx = books.findIndex(book => book.id === bookId)
+            return (idx === books.length - 1) ? books[0].id : books[idx + 1].id
+        })
 }

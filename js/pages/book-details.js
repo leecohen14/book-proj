@@ -36,6 +36,11 @@ export default {
             </div>
             <hr>
             <review-add :book="book"/>
+            <hr>
+            <div>
+                <!-- <router-link :to="'/book/' + nextC">Prev</router-link>
+                <router-link>Next</router-link> -->
+            </div>
          </section>
     `,
     data() {
@@ -78,12 +83,25 @@ export default {
                 return categories
             }).join(', ');
             return `Categories: ${categoriesNames}`;
-        }
+        },
+
     },
     created() {
         // get id from route and use
         const { bookId } = this.$route.params;
         bookService.getById(bookId)
             .then(book => this.book = book);
-    }
+    },
+    watch: {
+        '$route.params.bookId': {
+            immediate: true,
+            handler() {
+                const { bookId } = this.$route.params;
+                bookService.getById(bookId)
+                    .then(book => this.book = book);
+                bookService.getNextCarId(bookId)
+                    .then(bookId => this.nextBookId = bookId);
+            },
+        }
+    },
 }
