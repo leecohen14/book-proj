@@ -3,11 +3,11 @@ import { utilService } from '../services/util-service.js';
 export default {
     props: ['book'],
     template: `
-  <div class="book-preview">
+  <div class="book-preview" @click="moveToBook">
       <h2>{{book.title}}</h2>
-      <router-link :to="'/book/'+book.id">
+      <!-- <router-link :to="'/book/'+book.id"> -->
          <img :src="book.thumbnail" alt="no img">
-      </router-link>
+      <!-- </router-link> -->
       <h3>price: {{book.listPrice.amount}}<span>{{setCurrencyIcon}}</span></h3>
   </div>
     `,
@@ -17,6 +17,10 @@ export default {
         }
     },
     methods: {
+        moveToBook() {
+            if (this.$route.path === '/add') return;
+            this.$router.push('/book/' + this.book.id)
+        }
 
     },
     computed: {

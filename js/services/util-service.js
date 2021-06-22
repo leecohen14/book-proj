@@ -30,6 +30,7 @@ function convertCurrencyToSymbol(name) {
         'CRC': '₡', // Costa Rican Colón
         'GBP': '£', // British Pound Sterling
         'ILS': '₪', // Israeli New Sheqel
+        'IL': '₪', // Israeli New Sheqel
         'INR': '₹', // Indian Rupee
         'JPY': '¥', // Japanese Yen
         'KRW': '₩', // South Korean Won

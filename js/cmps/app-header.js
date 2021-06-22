@@ -7,7 +7,8 @@ export default {
         <nav>
             <router-link to="/" active-class="active-link" exact>Home</router-link> |
             <router-link to="/book" >books</router-link> |
-            <router-link to="/about" >About</router-link> 
+            <router-link to="/about" >About</router-link> |
+            <router-link to="/add" >Add Book</router-link> 
         </nav>
     </header>
     `,

@@ -1,7 +1,9 @@
 import { utilService } from './util-service.js';
 import { storageService } from './async-storage-service.js';
+import { googleSearchService } from './google-search-service.js';
 
 const BOOKS_KEY = 'books';
+const BOOKS_ADD_KEY = 'books-add';
 const gBooks = _createBooks();
 
 export const bookService = {
@@ -10,7 +12,10 @@ export const bookService = {
     save,
     getById,
     addReview,
-    removeReview
+    removeReview,
+    getBooksToAdd,
+    convertBooks,
+    addGoogleBook
 };
 
 function query() {
@@ -506,4 +511,64 @@ function _createBooks() {
 
     }
     return books;
+}
+
+function getBooksToAdd(value = '') {
+    //get books from google stroage
+    //and return the array
+    console.log('value :>> ', value);
+    const words = value.replace(' ', '+')
+    console.log('words :>> ', words);
+    let booksAdd = utilService.loadFromStorage(BOOKS_ADD_KEY);
+    if (!booksAdd || !booksAdd.length) {
+        return googleSearchService.searchBooks(words)
+    }
+    // return new Promise((resolve) => {
+    //     console.log('booksAdd', booksAdd);
+    //     resolve(booksAdd);
+    // })
+    return Promise.resolve(booksAdd);
+}
+
+function addGoogleBook(book) {
+    console.log('heeeerr');
+    console.log('book :>> ', book);
+
+    return storageService.post(BOOKS_KEY, book);
+}
+
+function convertBooks(books) {
+    const convertedBooks = books.map(book => {
+        return _convertBook(book);
+    })
+    return Promise.resolve(convertedBooks);
+}
+
+function _convertBook(book) {
+    //return a converted book
+    const newBook = {
+        id: book.id,
+        title: book.volumeInfo.title,
+        subtitle: book.volumeInfo.subtitle,
+        authors: book.volumeInfo.authors,
+        publishedDate: book.volumeInfo.publishedDate,
+        pageCount: book.volumeInfo.pageCount,
+        description: book.volumeInfo.description,
+        categories: book.volumeInfo.categories,
+        language: book.volumeInfo.language,
+        listPrice: {
+            amount: _getRandomPrice(30, 200),
+            currencyCode: book.saleInfo.country,
+            isOnSale: book.saleInfo.isEbook
+        },
+        pageCount: book.volumeInfo.pageCount,
+        thumbnail: book.volumeInfo.imageLinks.thumbnail
+    }
+    return newBook;
+}
+
+function _getRandomPrice(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
 }

@@ -1,3 +1,4 @@
+import { bookService } from '../services/book-service.js';
 import bookPreview from './book-preview.js';
 
 export default {
@@ -12,7 +13,20 @@ export default {
   `,
     methods: {
         select(book) {
-            this.$emit('selected', book);
+            //if this id is in the books so commit the selected, 
+            //else , emit "add book"!
+            bookService.query()
+                .then((books) => {
+                    const isThere = books.find((b) => {
+                        return b.id === book.id
+                    })
+                    return isThere
+                })
+                .then(res => {
+                    if (!res) this.$emit('addBook', book)
+                    else this.$emit('selected', book);
+                })
+
         },
     },
     components: {
