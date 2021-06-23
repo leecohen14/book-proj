@@ -92,16 +92,16 @@ export default {
         bookService.getById(bookId)
             .then(book => this.book = book);
     },
-    watch: {
-        '$route.params.bookId': {
-            immediate: true,
-            handler() {
-                const { bookId } = this.$route.params;
-                bookService.getById(bookId)
-                    .then(book => this.book = book);
-                bookService.getNextCarId(bookId)
-                    .then(bookId => this.nextBookId = bookId);
-            },
-        }
-    },
+    // watch: {
+    //     '$route.params.bookId': {
+    //         immediate: true,
+    //         handler() {
+    //             const { bookId } = this.$route.params;
+    //             bookService.getById(bookId)
+    //                 .then(book => this.book = book);
+    //             bookService.getNextCarId(bookId)
+    //                 .then(bookId => this.nextBookId = bookId);
+    //         },
+    //     }
+    // },
 }
